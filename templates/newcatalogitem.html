@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row divider green">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner catalog">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>New Catalog Item</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-1 padding-top">
+			<form action="#" method = "post">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type ="text" maxlength="50" class="form-control" name="name"placeholder="Name of the season">
+
+					<label for="description">Description:</label>
+					<textarea class="form-control" maxlength="250" rows="3" name="description" placeholder="Description of the season"></textarea>
+
+					<label for="price">Price:</label>
+					<div class="input-group">
+						<div class="input-group-addon">$</div>
+						<input type ="text" class="form-control" maxlength="10" name="price" placeholder="Price in $">
+					</div>
+					<label for="season">Season:</label>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="season" id="season1" value="Winter">Winter
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="season" id="season2" value="Fall">Fall
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="season" id="season3" value="Autumn">Autumn
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="season" id="season4" value="Spring">Spring
+					  </label>
+					</div>
+					<div class="radio">
+					  <label>
+					    <input type="radio" name="season" id="season5" value="Summer">Summer
+					  </label>
+					</div>
+					<button type="submit" class="btn btn-default" id="submit" type="submit">
+					<span class="glyphicon glyphicon-glass" aria-hidden="true"></span>Create</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+
