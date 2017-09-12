@@ -1,5 +1,9 @@
-from flask import Flask, render_template, \
-    request, redirect, url_for, flash, jsonify
+from flask import (Flask,
+                   render_template,
+                   request, redirect,
+                   url_for,
+                   flash,
+                   jsonify)
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CatalogItem, User
@@ -38,7 +42,7 @@ def login_required(f):
         if 'username' in login_session:
             return f(*args, **Kwargs)
         else:
-            flsh("You are not allowed to access there")
+            flash("You are not allowed to access there")
             return redirect('/login')
     return decorated_function
 # Create a state token to prevent request forgery.
@@ -170,7 +174,7 @@ def gconnect():
     url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
            % access_token)
     h = httplib2.Http()
-    result = json.loads(h.request(url, 'GET')[1])
+    result = json.loads(h.request(url, 'GET')[1].decode("utf8"))
     # If there was an error in the access token info, abort.
     if result.get('error') is not None:
         response = make_response(json.dumps(result.get('error')), 500)
