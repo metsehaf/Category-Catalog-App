@@ -26,7 +26,9 @@ class Category(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User, cascade = "save-update, merge, delete")
+    user = relationship(User)
+    catalog_item = relationship('CatalogItem', cascade='all, delete-orphan')
+
 
     @property
     def serialize(self):
@@ -47,9 +49,9 @@ class CatalogItem(Base):
     description = Column(String(250))
     price = Column(String(8))
     category_id = Column(Integer, ForeignKey('category.id'))
-    category = relationship(Category, cascade = "save-update, merge, delete")
+    category = relationship(Category)
     user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User, cascade = "save-update, merge, delete")
+    user = relationship(User)
 
     # Add this serialize function to be able to send JSON objects in a 
     # serializable format
