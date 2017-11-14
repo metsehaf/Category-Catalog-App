@@ -72,14 +72,16 @@ def fbconnect():
         'web']['app_id']
     app_secret = json.loads(
         open('fb_client_secrets.json', 'r').read())['web']['app_secret']
-    url = 'https://graph.facebook.com/oauth/access_token?grant_type=\
-    fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (
-        app_id, app_secret, access_token)
-    h = httplib2.Http()
+     url = ('https://graph.facebook.com/v2.10/oauth/access_token?'
+           'grant_type=fb_exchange_token&client_id=%s&client_secret=%s'
+           '&fb_exchange_token=%s') % (app_id, app_secret, access_token)
+    http = httplib2.Http()
     result = h.request(url, 'GET')[1]
+    data = json.loads(result)
 
     # Use token to get user info from API
-    userinfo_url = "https://graph.facebook.com/v2.8/me"
+    userinfo_url = "https://graph.facebook.com/v2.10/me"
+
     '''
         Due to the formatting for the result from the server\
         token exchange we have to split the token first on \
@@ -89,12 +91,13 @@ def fbconnect():
         replace the remaining quotes with nothing so that it\
         can be used directly in the graph api calls
     '''
-    token = result.split(',')[0].split(':')[1].replace('"', '')
+   token = 'access_token=' + data['access_token']
 
-    url = 'https://graph.facebook.com/v2.8/me?access_token=%s\
+    url = 'https://graph.facebook.com/v2.10/me?access_token=%s\
     &fields=name,id,email' % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
+
     # print "url sent for API access:%s"% url
     # print "API JSON result: %s" % result
     data = json.loads(result)
@@ -106,8 +109,8 @@ def fbconnect():
     # The token must be stored in the login_session in order to properly logout
     login_session['access_token'] = token
 
-    # Get user picture
-    url = 'https://graph.facebook.com/v2.8/me/picture?access_\
+     # Get user picture
+    url = 'https://graph.facebook.com/v2.10/me/picture?access_\
     token=%s&redirect=0&height=200&width=200' % token
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
